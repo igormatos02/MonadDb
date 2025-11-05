@@ -1,27 +1,15 @@
-﻿/*using MonadDb.Engine.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MonadDb.Engine.Models;
 
 namespace MonadDb.UI
 {
     public static class ConsolePrinter
     {
-        public static void PrintTable(SqlQuery query, List<RecordResult> results, TableMetadata metadata)
+        public static void PrintTable( List<RecordResult> results, TableMetadata metadata)
         {
-            // Se for agregação, o cabeçalho é o nome da função + coluna
-            if (query.Aggregations?.Any() == true)
-            {
-                var headers = query.Aggregations
-                    .Select(a => $"{a.Function.ToUpper()}({a.Column})");
-
-                Console.WriteLine(string.Join(" | ", headers));
-            }
-            else
-            {
+         
                 // Imprime apenas as colunas que foram selecionadas
-                Console.WriteLine(string.Join(" | ", query.Columns));
-            }
+                System.Console.WriteLine(string.Join(" | ", metadata.Columns.Select(x=>x.Name)));
+           
 
             // Agora imprime cada linha
             foreach (var record in results)
@@ -35,11 +23,10 @@ namespace MonadDb.UI
                     return v.ToString();
                 });
 
-                Console.WriteLine(string.Join(" | ", formatted));
+                System.Console.WriteLine(string.Join(" | ", formatted));
             }
 
-            Console.WriteLine();
+            System.Console.WriteLine();
         }
     }
 }
-*/

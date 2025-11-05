@@ -1,17 +1,28 @@
 ﻿
 using MonadDb.Console.UI;
 using MonadDb.Engine;
+using MonadDb.Engine.Readers;
+using MonadDb.UI;
 
 
 
 try
 {
-   // string sql = "CREATE TABLE user(id INT PRIMARY KEY, name STRING(20), age INT);";
-    string sql = "INSERT INTO user (id, name, age) VALUES (7, \"igor\", 21);\r\n INSERT INTO user VALUES (8, \"joyce\", 40);\r\n INSERT INTO user VALUES (9, \"Rafael\", 100);";
+    // string sql = "CREATE TABLE user(id INT PRIMARY KEY, name STRING(20), age INT);";
+    //string sql = "INSERT INTO user (id, name, age) VALUES (7, \"igor\", 21);\r\n INSERT INTO user VALUES (8, \"joyce\", 40);\r\n INSERT INTO user VALUES (9, \"Rafael\", 100);";
     MonadConfiguration config = new MonadConfiguration();
-    CommandExecutor commandExecutor = new CommandExecutor(config);
+    //CommandExecutor commandExecutor = new CommandExecutor(config);
 
-    commandExecutor.Execute(sql);
+    //commandExecutor.Execute(sql);
+    string sql = "SELECT id FROM user";
+    MemoryTableReader reader = new MemoryTableReader( config);
+    var data = reader.Read();
+
+    string tableFolder = config.GetDbDirectory() + "/user";
+    string metadataPath = Path.Combine(tableFolder, $"{"user"}.json");
+    var metadata = TableMetadataReader.LoadFromJson(metadataPath);
+    ConsolePrinter.PrintTable( data, metadata);
+
 }
 catch (Exception ex) { 
     Console.WriteLine(ex.ToString());

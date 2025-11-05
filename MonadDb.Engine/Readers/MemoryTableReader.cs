@@ -1,8 +1,9 @@
-﻿/*using MonadDb.Engine.Models;
+﻿using MonadDb.Engine.Models;
 
 namespace MonadDb.Engine.Readers
 {
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
 
     public class MemoryTableReader
     {
@@ -10,16 +11,28 @@ namespace MonadDb.Engine.Readers
         private readonly TableMetadata _metadata;
         private readonly List<PredicateFilter> _predicates;
         private readonly Dictionary<string, MemoryColumnReader> _columns;
+        private readonly MonadConfiguration _config;
 
-        public MemoryTableReader(TableMetadata metadata, List<PredicateFilter> predicates)
+    
+
+        public MemoryTableReader(MonadConfiguration config)
         {
-            _tablePath = MonadConfiguration.baseUrl+metadata.Table;
-            _metadata = metadata;
-            _predicates = predicates;
+            _config = config;
+            string tableFolder = _config.GetDbDirectory()+"/user";
 
+            if (!Directory.Exists(tableFolder))
+                throw new Exception($"Table '{"user"}' does not exist.");
+
+            string metadataPath = Path.Combine(tableFolder, $"{"user"}.json");
+            var metadata = TableMetadataReader.LoadFromJson(metadataPath);
+
+            _tablePath = _config.GetDbDirectory()+"/"+metadata.Table;
+            _metadata = metadata;
+            _predicates = new List<PredicateFilter>();
+            _config = config;
             _columns = metadata.Columns.ToDictionary(
                 c => c.Name,
-                c => new MemoryColumnReader(Path.Combine(_tablePath, $"col_{c.Name}.bin"), c.Size)
+                c => new MemoryColumnReader(_tablePath+$"/{c.Name}.bin", c.Size)
             );
         }
 
@@ -104,4 +117,3 @@ namespace MonadDb.Engine.Readers
     }
 
 }
-*/
