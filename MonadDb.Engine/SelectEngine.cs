@@ -13,6 +13,10 @@ namespace MonadDb.Engine
 {
     public class SelectEngine
     {
+        private readonly MonadConfiguration _config;
+        public SelectEngine(MonadConfiguration monadConfiguration) {
+            _config = monadConfiguration;
+        }
         public void Select(string sql)
         {
             SelectParser parser = new SelectParser();
@@ -21,7 +25,7 @@ namespace MonadDb.Engine
 
             foreach(var table in selectMetadata.Tables)
             {
-                var path = $"{MonadConfiguration.baseUrl}/{table.Name}/{table.Name}.json";
+                var path = $"{_config.GetDbDirectory()}/{table.Name}/{table.Name}.json";
                 var recordPositionProcessor = new RecordPositionProcessor();
                 var metadata = TableMetadataReader.LoadFromJson(path);
                 var mapping = recordPositionProcessor.Generate(metadata);

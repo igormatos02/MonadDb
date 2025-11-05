@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MonadDb.Engine.Models
-{   
-    public class ColumnMetadata
+{
+    public class ForeignKeyMetadata
     {
-        public string Name { get; set; }
-        public string Type { get; set; } 
-        public int Size { get; set; }   
+        public string Target { get; set; } // ex: "address.id"
+        public string Local { get; set; }  // ex: "id"
     }
-
 }

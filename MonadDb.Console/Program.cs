@@ -1,18 +1,25 @@
-﻿using MonadDb;
+﻿
+using MonadDb.Console.UI;
 using MonadDb.Engine;
-using MonadDb.Engine.Models;
-using MonadDb.Engine.Parsers;
-using MonadDb.Engine.Processors;
-using MonadDb.Engine.Readers;
-using MonadDb.UI;
 
 
-   
 
-SelectEngine selectEngine = new SelectEngine();
+try
+{
+   // string sql = "CREATE TABLE user(id INT PRIMARY KEY, name STRING(20), age INT);";
+    string sql = "INSERT INTO user (id, name, age) VALUES (7, \"igor\", 21);\r\n INSERT INTO user VALUES (8, \"joyce\", 40);\r\n INSERT INTO user VALUES (9, \"Rafael\", 100);";
+    MonadConfiguration config = new MonadConfiguration();
+    CommandExecutor commandExecutor = new CommandExecutor(config);
 
-string sql = "SELECT id FROM user";
-selectEngine.Select(sql);
+    commandExecutor.Execute(sql);
+}
+catch (Exception ex) { 
+    Console.WriteLine(ex.ToString());
+}
+//SelectEngine selectEngine = new SelectEngine();
+
+//string sql = "SELECT id FROM user";
+//selectEngine.Select(sql);
 /*var query = SelectParser.Parse(sql);
 
 var reader = new MemoryTableReader(usersMetadata, query.Predicates);
@@ -68,7 +75,7 @@ while (true)
     if (string.Equals(line, "EXIT", StringComparison.OrdinalIgnoreCase)) break;
     try
     {
-       // var rows = engine.Execute(line, currentUser);
+        var rows = engine.Execute(line, currentUser);
         if (rows != null)
         {
             foreach (var r in rows)
@@ -81,8 +88,8 @@ while (true)
     {
         Console.WriteLine("ERR: " + ex.Message);
     }
-}*/
-
+}
+*/
 //engine.Stop();
 
 static string FormatField(object o)

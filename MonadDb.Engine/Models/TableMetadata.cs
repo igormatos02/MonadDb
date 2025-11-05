@@ -3,5 +3,6 @@ public class TableMetadata
 {
     public string Table { get; set; }      
     public List<ColumnMetadata> Columns { get; set; } 
-    public int RecordCount { get; set; }    
+    public int RecordCount { get; set; }  
+    public List<String> PK { get; set; }
 }

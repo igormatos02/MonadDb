@@ -9,8 +9,9 @@ namespace MonadDb.Engine.Processors
         public TableRecordMapping Generate(TableMetadata metadata)
         {
             TableRecordMapping tableRecordMapping = new TableRecordMapping();
-               
-            var _tableFolder = $"{MonadConfiguration.baseUrl}/{metadata.Table}/";
+
+            //var _tableFolder = $"{MonadConfiguration.baseUrl}/{metadata.Table}/";
+            var _tableFolder = $"";
             tableRecordMapping.TableUrl = _tableFolder;
             var firstCol = metadata.Columns.First();
             string firstPath = Path.Combine(_tableFolder, "col_"+firstCol.Name + ".bin");

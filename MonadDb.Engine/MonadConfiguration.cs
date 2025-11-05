@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace MonadDb.Engine
 {
-    public static class MonadConfiguration
+    public class MonadConfiguration
     {
-        public static string baseUrl="c:/Repos/db";
+        private string dbDirectory="c:/Repos/db";
+
+        public string GetDbDirectory()
+        {
+            return dbDirectory;
+        }
     }
 }
